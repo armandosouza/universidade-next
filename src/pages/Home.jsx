@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import {Link} from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -320,7 +321,7 @@ const Home = () => {
 			</Highlights>
 			<Enroll>
 				<Subtitle style={{width: "66%", textShadow: "1px 2px 4px black"}}>Não perca a oportunidade de se matricular ainda hoje! <span style={{color: "red"}}>50% OFF</span> - Escolha seu curso e comece seus estudos!</Subtitle>
-				<EnrollButton><a href="/registro">Matricular agora!</a></EnrollButton>
+				<EnrollButton><Link to="/registro">Matricular agora!</Link></EnrollButton>
 			</Enroll>
 			<Footer />
 		</Container>

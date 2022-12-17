@@ -1,5 +1,9 @@
 import styled from 'styled-components'
+import {useNavigate} from 'react-router-dom'
+import {useState} from 'react'
+import axios from 'axios'
 
+import {Link} from 'react-router-dom'
 import Input from '../components/Input'
 
 const Container = styled.div`
@@ -29,7 +33,7 @@ const FormRegister = styled.form`
 	top: 25%;
 	left: 25%;
 	border-radius: 5px;
-	box-shadow: 1px 1px 4px black;
+	box-shadow: 2px 3px 7px black;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -41,7 +45,7 @@ const Subtitle = styled.h3`
 	text-align: center;
 	position: absolute;
 	color: black;
-	top: 20px;
+	top: 10px;
 `
 
 const Inputs = styled.div`
@@ -52,8 +56,6 @@ const Inputs = styled.div`
 `
 
 const Back = styled.h5`
-	padding-bottom: 10px;
-
 	& a:visited, a:link {
 		color: blue;
 		text-decoration: none;
@@ -61,7 +63,7 @@ const Back = styled.h5`
 	}
 `
 
-const Button = styled.span`
+const Button = styled.button`
 	margin-top: 15px;
 	margin-left: 15px;
 	border-radius: 9px;
@@ -71,37 +73,89 @@ const Button = styled.span`
 	box-shadow: 2px 4px 8px black;
 	border: none;
 	cursor: pointer;
+	font-weight: bold;
+	font-size: 15px;
+	font-family: 'Didact Gothic', sans-serif;
+	color: black;
+	text-transform: uppercase;
 
 	&:hover {
 		background-color: #797ee6;
 	}
 
 	& a:link, a:visited {
-		font-weight: bold;
-		font-size: 15px;
-		color: black;
-		text-transform: uppercase;
-		text-decoration: none;
 	}
 `
 
+const Warning = styled.span`
+	padding: 0 20px;
+	font-size: 15px;
+	color: ${props => props.color};
+`
+
 const Register = () => {
+	const [nome, setNome] = useState("")
+	const [email, setEmail] = useState("")
+	const [data, setData] = useState("")
+	const [senha, setSenha] = useState("")
+	const [confirmaSenha, setConfirmaSenha] = useState("")
+	const [msg, setMsg] = useState("")
+	const [color, setColor] = useState("red")
+
+	const navigate = useNavigate()
+
+	const submitUser = (e) => {
+		e.preventDefault()
+		if(senha !== confirmaSenha) {
+			setMsg("Senhas não combinam")
+
+		} else if(nome === "" || email === "" || data === "" || senha === "" || confirmaSenha === "") {
+			setMsg("Campo(s) inválido(s)")
+
+		} else if(senha.length < 4) {
+			setMsg("A senha não pode ter menos que 4 caracteres")
+
+		}
+
+		try {
+			axios.post('http://localhost:3001/api/auth/register', {
+				name: nome,
+				email: email,
+				birth: data,
+				password: senha
+			}).then((response) => {
+				setColor("green")
+				setMsg(response.data.msg)
+
+				setTimeout(() => {
+					navigate('/login')
+				}, 4000)
+			}).catch((response) => {
+				setMsg(response.response.data.msg)
+			})
+		} catch {
+			setMsg("Houve um erro ao realizar o cadastro!")
+			setColor("red")
+		}
+	}
+
 	return (
 		<Container>
 			<Title>Next Alumni</Title>
-			<FormRegister method="POST">
+			<FormRegister method="POST" action="">
 				<Subtitle>Crie sua conta acadêmica</Subtitle>
 				<Inputs>
-					<Input style={{width: "40%"}} id="nome" type="text" name="nome" placeholder="Digite seu nome completo" icon="fa-solid fa-user" required/>
-					<Input style={{width: "40%"}} id="email" type="email" name="email" placeholder="Digite seu email" icon="fa-solid fa-envelope" required/>
-					<Input style={{width: "40%"}} id="nascimento" type="date" name="nascimento" placeholder="Digite sua data de nascimento" required/>
-					<Input style={{width: "40%"}} id="senha" type="password" name="senha" placeholder="Digite sua senha" icon="fa-solid fa-key" required/>
-					<Input style={{width: "40%"}} id="senha" type="password" name="senha" placeholder="Digite sua senha novamente" icon="fa-solid fa-key" required/>
+					<Input onChange={(e) => setNome(e.target.value)} style={{width: "40%"}} id="nome" type="text" name="nome" placeholder="Digite seu nome completo" icon="fa-solid fa-user" value={nome} required/>
+					<Input onChange={(e) => setEmail(e.target.value)} style={{width: "40%"}} id="email" type="email" name="email" placeholder="Digite seu email" icon="fa-solid fa-envelope" value={email} required/>
+					<Input onChange={(e) => setData(e.target.value)} style={{width: "40%"}} id="nascimento" type="date" name="nascimento" placeholder="Digite sua data de nascimento" value={data} required/>
+					<Input onChange={(e) => setSenha(e.target.value)} style={{width: "40%"}} id="senha" type="password" name="senha" placeholder="Digite sua senha" icon="fa-solid fa-key" value={senha} required/>
+					<Input onChange={(e) => setConfirmaSenha(e.target.value)} style={{width: "40%"}} id="senha2" type="password" name="senha2" placeholder="Digite sua senha novamente" icon="fa-solid fa-key" value={confirmaSenha} required/>
 				</Inputs>
+				<Warning color={color} id="warning">{msg}</Warning>
 				<Back>
-					<a href="/login">Já possuo conta</a>
+					<Link to="/login">Já possuo conta</Link>
 				</Back>
-				<Button><a href="#">Cadastrar</a></Button>
+				<Button onClick={submitUser}>Cadastrar</Button>
 			</FormRegister>
 		</Container>
 		)

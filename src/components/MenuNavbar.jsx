@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import logo from '../assets/remove.png'
 
+import {Link} from 'react-router-dom'
+
 const Menu = styled.div`
 	position: relative;
 	top: 10px;
@@ -86,16 +88,16 @@ const MenuNavbar = () => {
 	return (
 		<Menu>
 			<Left>
-				<a href="/"><Logo src={logo}/></a>
+				<Link to="/"><Logo src={logo}/></Link>
 				<Title>Universidade Next</Title>
 			</Left>
 			<Right>
-				<ItemMenu><a href="/sobre">Sobre</a></ItemMenu>
-				<ItemMenu><a href="/login">Alumni</a></ItemMenu>
-				<ItemMenu><a href="/cursos">Cursos</a></ItemMenu>
-				<ItemMenu><a href="/">Acadêmico</a></ItemMenu>
-				<ItemMenu><a href="/#eventos">Eventos</a></ItemMenu>
-				<Button><a href="/registro">Matricule-se</a></Button>
+				<ItemMenu><Link to="/sobre">Sobre</Link></ItemMenu>
+				<ItemMenu><Link to="/login">Alumni</Link></ItemMenu>
+				<ItemMenu><Link to="/cursos">Cursos</Link></ItemMenu>
+				<ItemMenu><Link to="/">Acadêmico</Link></ItemMenu>
+				<ItemMenu><Link to="/#eventos">Eventos</Link></ItemMenu>
+				<Button><Link to="/registro">Matricule-se</Link></Button>
 			</Right>
 		</Menu>
 	)

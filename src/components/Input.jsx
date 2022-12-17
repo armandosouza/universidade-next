@@ -28,11 +28,11 @@ const Field = styled.input`
 	font-family: 'Didact Gothic', sans-serif;
 `
 
-const Input = ({id, name, type, placeholder, icon}) => {
+const Input = ({id, name, type, placeholder, icon, onChange}) => {
 	return (
 		<Container>
 			<Icon className={icon}></Icon>
-			<Field placeholder={placeholder} name={name} id={id} type={type}/>
+			<Field onChange={onChange} placeholder={placeholder} name={name} id={id} type={type}/>
 		</Container>
 		)
 }

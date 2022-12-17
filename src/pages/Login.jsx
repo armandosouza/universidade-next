@@ -1,5 +1,7 @@
 import styled from 'styled-components'
-
+import axios from 'axios'
+import {useState} from 'react'
+import {useNavigate, Link} from 'react-router-dom'
 import Input from '../components/Input'
 
 const Container = styled.div`
@@ -38,11 +40,17 @@ const FormLogin = styled.form`
 	top: 25%;
 	left: 25%;
 	border-radius: 5px;
-	box-shadow: 1px 1px 4px black;
+	box-shadow: 2px 3px 7px black;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+`
+
+const Warning = styled.span`
+	padding: 0 20px;
+	font-size: 15px;
+	color: ${props => props.color};
 `
 
 const ForgotPassword = styled.h5`
@@ -59,7 +67,7 @@ const ContainerButton = styled.div`
 	display: flex;
 `
 
-const Button = styled.span`
+const Button = styled.button`
 	margin-top: 15px;
 	margin-left: 15px;
 	border-radius: 9px;
@@ -69,34 +77,54 @@ const Button = styled.span`
 	box-shadow: 2px 4px 8px black;
 	border: none;
 	cursor: pointer;
+	font-weight: bold;
+	font-size: 15px;
+	font-family: 'Didact Gothic', sans-serif;
+	color: black;
+	text-transform: uppercase;
 
 	&:hover {
 		background-color: #797ee6;
 	}
-
-	& a:link, a:visited {
-		font-weight: bold;
-		font-size: 15px;
-		color: black;
-		text-transform: uppercase;
-		text-decoration: none;
-	}
 `
 
 const Login = () => {
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const [msg, setMsg] = useState('')
+	const [color, setColor] = useState('red')
+
+	const navigate = useNavigate()
+
+	const login = (e) => {
+		e.preventDefault()
+		axios.post('http://localhost:3001/api/auth/login', {
+			email: email,
+			password: password
+		}).then((response) => {
+			console.log(response.data.msg)
+			setColor('green')
+			setMsg(response.data.msg)
+		}).catch((response) => {
+			console.log(response.response.data.msg)
+			setMsg(response.response.data.msg)
+		})
+	}
+
 	return (
 		<Container>
 			<Title>Next Alumni</Title>
-			<FormLogin method="POST">
+			<FormLogin method="POST" action="">
 				<Subtitle>Entre na sua conta</Subtitle>
-				<Input id="matricula" name="matricula" type="text" placeholder="Digite sua matrícula" icon="fa-solid fa-user"/>
-				<Input id="senha" name="senha" type="password" placeholder="Digite sua senha" icon="fa-solid fa-key"/>
+				<Input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Digite seu email" icon="fa-solid fa-user"/>
+				<Input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Digite sua senha" icon="fa-solid fa-key"/>
+				<Warning color={color} id="warning">{msg}</Warning>
 				<ForgotPassword>
-					<a href="/trocar-senha">Esqueceu a senha?</a>
+					<Link to="/trocar-senha">Esqueceu a senha?</Link>
 				</ForgotPassword>
 				<ContainerButton>
-					<Button><a href="#">Login</a></Button>
-					<Button><a href="/registro">Registrar-se</a></Button>
+					<Button onClick={login}>Login</Button>
+					<Button onClick={() => navigate('/registro')}>Registrar-se</Button>
 				</ContainerButton>
 			</FormLogin>
 		</Container>
