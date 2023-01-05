@@ -278,19 +278,19 @@ const Home = () => {
 						<EventImage src="https://i0.wp.com/gobanners.com.br/wp-content/uploads/2019/09/5-dicas-de-marketing-fundamentais-para-inauguracao-de-loja.jpg?resize=1000%2C480&ssl=1"/>
 						<EventTitle>Inauguração da Universidade Next</EventTitle>
 						<EventDescription>Está inaugurada a universidade a partir do dia 18/11/2022. Acessem já!</EventDescription>
-						<EventButton>Ver mais <i class="fa-solid fa-arrow-right"></i></EventButton>
+						<EventButton>Ver mais <i className="fa-solid fa-arrow-right"></i></EventButton>
 					</Event>
 					<Event>
 						<EventImage src="https://i0.wp.com/gobanners.com.br/wp-content/uploads/2019/09/5-dicas-de-marketing-fundamentais-para-inauguracao-de-loja.jpg?resize=1000%2C480&ssl=1"/>
 						<EventTitle>Inauguração da Universidade Next</EventTitle>
 						<EventDescription>Está inaugurada a universidade a partir do dia 18/11/2022. Acessem já!</EventDescription>
-						<EventButton>Ver mais <i class="fa-solid fa-arrow-right"></i></EventButton>
+						<EventButton>Ver mais <i className="fa-solid fa-arrow-right"></i></EventButton>
 					</Event>
 					<Event>
 						<EventImage src="https://i0.wp.com/gobanners.com.br/wp-content/uploads/2019/09/5-dicas-de-marketing-fundamentais-para-inauguracao-de-loja.jpg?resize=1000%2C480&ssl=1"/>
 						<EventTitle>Inauguração da Universidade Next</EventTitle>
 						<EventDescription>Está inaugurada a universidade a partir do dia 18/11/2022. Acessem já!</EventDescription>
-						<EventButton>Ver mais <i class="fa-solid fa-arrow-right"></i></EventButton>
+						<EventButton>Ver mais <i className="fa-solid fa-arrow-right"></i></EventButton>
 					</Event>
 				</EventContainer>
 			</News>

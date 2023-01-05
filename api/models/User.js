@@ -35,6 +35,14 @@ const UserSchema = new mongoose.Schema({
 	admin: {
 		type: Boolean,
 		default: false
+	},
+	profileImg: {
+		type: String,
+		default: "https://i.imgur.com/CAgG1CB.png"
+	},
+	status: {
+		type: String,
+		default: "Estou estudando na Next University!"
 	}
 })
 

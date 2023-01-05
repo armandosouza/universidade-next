@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const User = require("../models/User")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 //register a user
 router.post("/register", async (req, res) => {
@@ -48,7 +49,15 @@ router.post('/login', async (req, res) => {
 		} else {
 			bcrypt.compare(req.body.password, user.password, (err, result) => {
 				if(result) {
-					return res.status(200).json({msg: "Login feito com sucesso!"})
+					try {
+						const token = jwt.sign({id: user._id}, process.env.SECRET, {
+							expiresIn: 2 * 60 * 60
+						})
+
+						return res.status(200).json({msg: "Login feito com sucesso!", userAuth: {auth: true, token: token, id: user._id}})
+					} catch(e) {
+						console.log(e)
+					}
 				} else {
 					return res.status(422).json({msg: "Senha incorreta!"})
 				}
@@ -57,6 +66,11 @@ router.post('/login', async (req, res) => {
 	} catch (e) {
 		res.status(422).json({msg: "Houve um erro ao realizar o login!"})
 	}
+})
+
+//logout
+router.post('/logout', (req, res) => {
+	return res.json({userAuth: {auth: false, token: null}})
 })
 
 module.exports = router

@@ -16,6 +16,12 @@ const Title = styled.h4``
 
 const Grade = styled.div`
 	margin: 10px 0;
+	transition: .5s;
+	cursor: pointer;
+
+	&:hover {
+		color: aquamarine;
+	}
 `
 
 const GradeIcon = styled.i`

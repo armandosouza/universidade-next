@@ -16,6 +16,12 @@ const Title = styled.h4``
 
 const Task = styled.span`
 	margin: 10px 0;
+	transition: .5s;
+	cursor: pointer;
+
+	&:hover {
+		color: aquamarine;
+	}
 `
 
 const Icon = styled.i`
@@ -43,7 +49,7 @@ const Tasks = () => {
 				Tarefa 4
 			</Task>
 		</Container>
-		)
+	)
 }
 
 export default Tasks

@@ -12,11 +12,11 @@ const Profile = styled.div`
 	margin: 10px 0;
 `
 
-const ProfileMenu = ({avatar}) => {
+const ProfileMenu = ({avatar, name}) => {
 	return (
 		<Profile>
 			<Avatar avatar={avatar}/>
-			Armando Souza
+			{name}
 		</Profile>
 		)
 }

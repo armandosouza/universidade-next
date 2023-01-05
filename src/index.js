@@ -4,17 +4,26 @@ import './index.css';
 
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 
+import {Provider} from 'react-redux'
+import {PersistGate} from 'reduxjs-toolkit-persist/integration/react'
+import {persistor, store} from './redux/store'
+
 import App from './App';
 import About from './pages/About'
 import Courses from './pages/Courses'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
 
+import ErrorPage from './pages/ErrorPage'
+
+//root router
 const router = createBrowserRouter([
    {
     path: '/',
-    element: <App />
+    element: <App />,
+    errorElement: <ErrorPage />
    },
    {
     path: '/sobre',
@@ -33,14 +42,22 @@ const router = createBrowserRouter([
     element: <Register />
    },
    {
-    path: '/dashboard',
+    path: '/dashboard/:id',
     element: <Dashboard />
+   },
+   {
+    path: '/dashboard/:id/perfil',
+    element: <Profile />
    }
   ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <RouterProvider router={router}/>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );

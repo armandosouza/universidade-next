@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 import axios from 'axios'
+
 import {useState} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+
 import Input from '../components/Input'
 
 const Container = styled.div`
@@ -96,17 +99,23 @@ const Login = () => {
 
 	const navigate = useNavigate()
 
+	const user = useSelector(state => state.user[0])
+
 	const login = (e) => {
 		e.preventDefault()
 		axios.post('http://localhost:3001/api/auth/login', {
 			email: email,
 			password: password
 		}).then((response) => {
-			console.log(response.data.msg)
+			const userAuth = response.data.userAuth
+			localStorage.setItem('token', userAuth.token)
 			setColor('green')
 			setMsg(response.data.msg)
+
+			setTimeout(() => {
+				navigate(`/dashboard/${userAuth.id}`)
+			}, 2000)
 		}).catch((response) => {
-			console.log(response.response.data.msg)
 			setMsg(response.response.data.msg)
 		})
 	}

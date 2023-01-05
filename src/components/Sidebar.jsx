@@ -1,10 +1,16 @@
 import styled from 'styled-components'
+import axios from 'axios'
+
+import {useState} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {Link, useNavigate} from 'react-router-dom'
+import {logout} from '../redux/features/userSlice'
 
 const Top = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 10px;
+	padding-top: 20px;
 `
 
 const SidebarTitle = styled.h3`
@@ -26,6 +32,7 @@ const MenuIcon = styled.i`
 const SidebarContainer = styled.aside`
 	background-color: #3e3d53;
 	width: 20%;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -46,21 +53,24 @@ const MenuSidebarList = styled.ul`
 `
 
 const MenuSidebarItem = styled.li`
-	text-shadow: 1px 1px 3px black;
-	color: lightgray;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	cursor: pointer;
-	transition: .5s;
+	& a {
+		text-shadow: 1px 1px 3px black;
+		color: lightgray;
+		text-decoration: none;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		cursor: pointer;
+		transition: .5s;
+	}
 
-	&:hover {
+	&:hover, & a:hover {
 		color: aquamarine;
 	}
 
 	&.collapse {
-		p {
+		a {
 			display: none;
 		}
 	}
@@ -72,7 +82,9 @@ const MenuSidebarIcon = styled.i`
 	cursor: pointer;
 `
 
-const Sidebar = () => {
+const Sidebar = ({location}) => {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	
 	const collapseSidebar = () => {
 		let sidebar = document.getElementById("sidebar")
@@ -88,6 +100,17 @@ const Sidebar = () => {
 		}
 	}
 
+	const handleLogout = () => {
+		dispatch(logout())
+		axios.post('http://localhost:3001/api/auth/logout')
+		.then(async () => {
+			localStorage.removeItem("token")
+			await navigate('/login')
+		}).catch((e) => {
+			console.log(e)
+		})
+	}
+
 	return (
 			<SidebarContainer id="sidebar">
 				<Top>
@@ -97,33 +120,45 @@ const Sidebar = () => {
 				<MenuSidebar>
 					<MenuSidebarList>
 						<MenuSidebarItem className="item">
-							<MenuSidebarIcon className="fa-solid fa-user-graduate"></MenuSidebarIcon>
-							<p>Conta</p>
+							<Link to={`${location}/perfil`}>
+								<MenuSidebarIcon className="fa-solid fa-user-graduate"></MenuSidebarIcon>
+								Conta
+							</Link>
 						</MenuSidebarItem>
 						<MenuSidebarItem className="item">
-							<MenuSidebarIcon className="fa-solid fa-chalkboard"></MenuSidebarIcon>
-							<p>Cursos</p>
+							<Link to={`${location}/cursos`}>
+								<MenuSidebarIcon className="fa-solid fa-chalkboard"></MenuSidebarIcon>
+								Cursos
+							</Link>
 						</MenuSidebarItem>
 						<MenuSidebarItem className="item">
-							<MenuSidebarIcon className="fa-solid fa-book-open"></MenuSidebarIcon>
-							<p>Disciplinas</p>
+							<Link to={`${location}/disciplinas`}>
+								<MenuSidebarIcon className="fa-solid fa-book-open"></MenuSidebarIcon>
+								Disciplinas
+							</Link>
 						</MenuSidebarItem>
 						<MenuSidebarItem className="item">
-							<MenuSidebarIcon className="fa-solid fa-person-chalkboard"></MenuSidebarIcon>
-							<p>Notas</p>
+							<Link to={`${location}/notas`}>
+								<MenuSidebarIcon className="fa-solid fa-person-chalkboard"></MenuSidebarIcon>
+								Notas
+							</Link>
 						</MenuSidebarItem>
 						<MenuSidebarItem className="item">
-							<MenuSidebarIcon className="fa-solid fa-book"></MenuSidebarIcon>
-							<p>Biblioteca</p>
+							<Link to="#">
+								<MenuSidebarIcon className="fa-solid fa-book"></MenuSidebarIcon>
+								Biblioteca
+							</Link>
 						</MenuSidebarItem>
 						<MenuSidebarItem className="item">
-							<MenuSidebarIcon className="fa-solid fa-right-from-bracket"></MenuSidebarIcon>
-							<p>Sair</p>
+							<Link onClick={handleLogout}>
+								<MenuSidebarIcon className="fa-solid fa-right-from-bracket"></MenuSidebarIcon>
+								Sair
+							</Link>
 						</MenuSidebarItem>
 					</MenuSidebarList>
 				</MenuSidebar>
 			</SidebarContainer>
-		)
+	)
 }
 
 export default Sidebar

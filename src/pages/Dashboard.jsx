@@ -1,4 +1,10 @@
 import styled from 'styled-components'
+import axios from 'axios'
+
+import {useEffect, useState} from 'react'
+import {useParams, useNavigate, useLocation} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import {saveUser} from '../redux/features/userSlice'
 
 import Sidebar from '../components/Sidebar'
 import ProfileMenu from '../components/ProfileMenu'
@@ -15,6 +21,7 @@ const Container = styled.div`
 
 const Main = styled.div`
 	width: 65%;
+	height: 100%;
 
 	&.expand {
 		width: 75%;
@@ -118,77 +125,82 @@ const SidebarRight = styled.aside`
 `
 
 const Dashboard = () => {
+	const [name, setName] = useState('')
+	const [avatar, setAvatar] = useState('')
+	const [courses, setCourses] = useState([])
+
+	const {id} = useParams()
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const location = useLocation()
+
+	useEffect(() => {
+		const requestUser = axios.create({
+			headers: {
+				authorization: `Bearer ${localStorage.getItem("token")}`
+			}
+		})
+		requestUser.get(`http://localhost:3001/api/user/${id}`)
+		.then((response) => {
+			let user = response.data.user
+			setName(user.name)
+			setAvatar(user.avatar)
+			setCourses(user.courses)
+
+			dispatch(saveUser({
+				id: user._id,
+				name: user.name,
+				email: user.email,
+				birth: user.birth,
+				avatar: user.avatar,
+				profileImg: user.profileImg,
+				achievements: user.achievements,
+				courses: user.courses,
+				url: location.pathname,
+				status: user.status
+			}))
+		}).catch((e) => {
+			navigate('/login')
+		})
+	}, [])
+
 	return (
 		<Container>
-			<Sidebar />
+			<Sidebar location={location.pathname}/>
 			<Main id="main">
 				<Title>Dashboard</Title>
 				<Hr/>
 				<Courses>
-					<Course>
-						<CourseImage bg="https://www.institutodeengenharia.org.br/site/wp-content/uploads/2018/02/Engenharia-Florestal.jpg"/>
-						<CourseName>Cálculo 1</CourseName>
-						<Progress>25% Concluídos</Progress>
-						<Tag>Engenharia de Produção</Tag>
-						<CourseMenu>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-bell"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-folder"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fas fa-sticky-note"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-info-circle"></CourseMenuIcon>
-							</CourseMenuItem>
-						</CourseMenu>
-					</Course>
-					<Course>
-						<CourseImage bg="https://www.institutodeengenharia.org.br/site/wp-content/uploads/2018/02/Engenharia-Florestal.jpg"/>
-						<CourseName>Cálculo 1</CourseName>
-						<Progress>25% Concluídos</Progress>
-						<Tag>Engenharia de Produção</Tag>
-						<CourseMenu>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-bell"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-folder"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fas fa-sticky-note"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-info-circle"></CourseMenuIcon>
-							</CourseMenuItem>
-						</CourseMenu>
-					</Course>
-					<Course>
-						<CourseImage bg="https://www.institutodeengenharia.org.br/site/wp-content/uploads/2018/02/Engenharia-Florestal.jpg"/>
-						<CourseName>Cálculo 1</CourseName>
-						<Progress>25% Concluídos</Progress>
-						<Tag>Engenharia de Produção</Tag>
-						<CourseMenu>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-bell"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-folder"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fas fa-sticky-note"></CourseMenuIcon>
-							</CourseMenuItem>
-							<CourseMenuItem>
-								<CourseMenuIcon className="fa-solid fa-info-circle"></CourseMenuIcon>
-							</CourseMenuItem>
-						</CourseMenu>
-					</Course>
+					{courses.length > 0
+						? courses.map((course) => (
+							<Course>
+								<CourseImage bg="https://www.institutodeengenharia.org.br/site/wp-content/uploads/2018/02/Engenharia-Florestal.jpg"/>
+								<CourseName>Cálculo 1</CourseName>
+								<Progress>25% Concluídos</Progress>
+								<Tag>Engenharia de Produção</Tag>
+								<CourseMenu>
+									<CourseMenuItem>
+										<CourseMenuIcon className="fa-solid fa-bell"></CourseMenuIcon>
+									</CourseMenuItem>
+									<CourseMenuItem>
+										<CourseMenuIcon className="fa-solid fa-folder"></CourseMenuIcon>
+									</CourseMenuItem>
+									<CourseMenuItem>
+										<CourseMenuIcon className="fas fa-sticky-note"></CourseMenuIcon>
+									</CourseMenuItem>
+									<CourseMenuItem>
+										<CourseMenuIcon className="fa-solid fa-info-circle"></CourseMenuIcon>
+									</CourseMenuItem>
+								</CourseMenu>
+							</Course>
+						))
+						:
+						"Sem cursos em andamento!"
+					}
 				</Courses>
 			</Main>
 			<SidebarRight>
-				<ProfileMenu avatar="https://avatars.githubusercontent.com/u/55011082?v=4"/>
+				<ProfileMenu avatar={avatar} name={name}/>
 				<Tasks />
 				<Grades />
 			</SidebarRight>
