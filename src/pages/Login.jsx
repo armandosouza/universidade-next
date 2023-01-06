@@ -5,6 +5,8 @@ import {useState} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
+import {saveUser} from '../redux/features/userSlice'
+
 import Input from '../components/Input'
 
 const Container = styled.div`
@@ -100,6 +102,9 @@ const Login = () => {
 	const navigate = useNavigate()
 
 	const user = useSelector(state => state.user[0])
+	if(user) {
+		navigate(`${user.url}`)
+	}
 
 	const login = (e) => {
 		e.preventDefault()
@@ -108,6 +113,7 @@ const Login = () => {
 			password: password
 		}).then((response) => {
 			const userAuth = response.data.userAuth
+			const user = response.data.user
 			localStorage.setItem('token', userAuth.token)
 			setColor('green')
 			setMsg(response.data.msg)

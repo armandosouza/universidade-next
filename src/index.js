@@ -15,6 +15,9 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
+import StudentCourses from './pages/profile/StudentCourses'
+import StudentGrades from './pages/profile/StudentGrades'
+import StudentDisciplines from './pages/profile/StudentDisciplines'
 
 import ErrorPage from './pages/ErrorPage'
 
@@ -48,6 +51,18 @@ const router = createBrowserRouter([
    {
     path: '/dashboard/:id/perfil',
     element: <Profile />
+   },
+   {
+    path: '/dashboard/:id/cursos',
+    element: <StudentCourses />
+   },
+   {
+    path: '/dashboard/:id/notas',
+    element: <StudentGrades />
+   },
+   {
+    path: '/dashboard/:id/disciplinas',
+    element: <StudentDisciplines />
    }
   ])
 

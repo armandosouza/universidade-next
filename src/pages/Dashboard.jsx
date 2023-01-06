@@ -4,9 +4,10 @@ import axios from 'axios'
 import {useEffect, useState} from 'react'
 import {useParams, useNavigate, useLocation} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
-import {saveUser} from '../redux/features/userSlice'
+import {saveUser, logout} from '../redux/features/userSlice'
 
 import Sidebar from '../components/Sidebar'
+import Title from '../components/Title'
 import ProfileMenu from '../components/ProfileMenu'
 import Tasks from '../components/Tasks'
 import Grades from '../components/Grades'
@@ -28,12 +29,6 @@ const Main = styled.div`
 	}
 `
 
-const Title = styled.h2`
-	font-size: 36px;
-	margin: 10px;
-`
-
-const Hr = styled.hr``
 const Courses = styled.div`
 	display: flex;
 	margin: 10px;
@@ -159,7 +154,8 @@ const Dashboard = () => {
 				url: location.pathname,
 				status: user.status
 			}))
-		}).catch((e) => {
+		}).catch((response) => {
+			dispatch(logout())
 			navigate('/login')
 		})
 	}, [])
@@ -169,7 +165,6 @@ const Dashboard = () => {
 			<Sidebar location={location.pathname}/>
 			<Main id="main">
 				<Title>Dashboard</Title>
-				<Hr/>
 				<Courses>
 					{courses.length > 0
 						? courses.map((course) => (

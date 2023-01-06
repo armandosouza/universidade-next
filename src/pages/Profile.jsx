@@ -241,8 +241,6 @@ const Profile = () => {
 		navigate('/login')
 	}
 
-	const statusChangeButton = e => setShowButton(!showButton)
-
 	const showModalandButton = () => {
 		setShowModal(true)
 		setShowModalButton(true)
@@ -321,7 +319,7 @@ const Profile = () => {
 			}
 			<Sidebar location={user.url}/>
 			<Main id="main">
-				<Cover onMouseEnter={() => setShowButton(!showButton)} onMouseLeave={e => statusChangeButton(e)} bg={user.profileImg}>
+				<Cover onMouseEnter={() => setShowButton(!showButton)} onMouseLeave={() => setShowButton(!showButton)} bg={user.profileImg}>
 					<ProfileName>{user.name}</ProfileName>
 					<Status>{user.status}</Status>
 					<Info>{info}</Info>
