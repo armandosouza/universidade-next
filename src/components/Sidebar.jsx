@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import axios from 'axios'
 
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 import {logout} from '../redux/features/userSlice'
 
@@ -82,6 +82,7 @@ const MenuSidebarIcon = styled.i`
 `
 
 const Sidebar = ({location}) => {
+	const user = useSelector(state => state.user[0])
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	

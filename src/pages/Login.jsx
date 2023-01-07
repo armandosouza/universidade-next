@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import axios from 'axios'
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
@@ -101,9 +101,13 @@ const Login = () => {
 
 	const navigate = useNavigate()
 
+	useEffect(() => {
+		document.title = 'Next University | Entrar na conta'
+	}, [])
+
 	const user = useSelector(state => state.user[0])
 	if(user) {
-		navigate(`${user.url}`)
+		return navigate(`${user.url}`)
 	}
 
 	const login = (e) => {

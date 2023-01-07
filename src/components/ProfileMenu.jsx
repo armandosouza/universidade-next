@@ -12,11 +12,30 @@ const Profile = styled.div`
 	margin: 10px 0;
 `
 
-const ProfileMenu = ({avatar, name}) => {
+const Admin = styled.span`
+	border-radius: 9px;
+	background-color: #006994;
+	color: whitesmoke;
+	font-size: 16px;
+	padding: 5px 10px;
+	text-align: center;
+	margin: 5px 0;
+	cursor: pointer;
+
+	&:hover {
+		background-color: whitesmoke;
+		color: #006994;
+	}
+`
+
+const ProfileMenu = ({avatar, name, admin}) => {
 	return (
 		<Profile>
 			<Avatar avatar={avatar}/>
 			{name}
+			{!admin && 
+				<Admin>Área administrativa</Admin>
+			}
 		</Profile>
 		)
 }

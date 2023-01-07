@@ -1,6 +1,7 @@
 import styled from 'styled-components'
+
 import {useNavigate} from 'react-router-dom'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import axios from 'axios'
 
 import {Link} from 'react-router-dom'
@@ -103,6 +104,10 @@ const Register = () => {
 	const [color, setColor] = useState("red")
 
 	const navigate = useNavigate()
+
+	useEffect(() => {
+		document.title = 'Next University | Registre-se'
+	}, [])
 
 	const submitUser = (e) => {
 		e.preventDefault()

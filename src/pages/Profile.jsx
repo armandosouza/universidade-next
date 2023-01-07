@@ -1,16 +1,14 @@
 import styled from 'styled-components'
 import axios from 'axios'
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
 import {editUser} from '../redux/features/userSlice'
 
 import Sidebar from '../components/Sidebar'
-import ProfileMenu from '../components/ProfileMenu'
-import Grades from '../components/Grades'
-import Tasks from '../components/Tasks'
+import SidebarRight from '../components/SidebarRight'
 
 const Container = styled.div`
 	width: 100%;
@@ -25,16 +23,13 @@ const Main = styled.div`
 	overflow-y: scroll;
 `
 
-const SidebarRight = styled.div`
-	height: 100vh;
-	width: 15%;
-	background-color: #7f7d9c;
-`
-
 const Cover = styled.div`
 	width: 100%;
 	height: 30vh;
 	background: url(${(props) => props.bg});
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	position: relative;
 `
 
@@ -97,9 +92,10 @@ const ChangeCoverPhoto = styled.span`
 
 const StatusProfile = styled.div`
 	display: flex;
-	margin: 20px 0;
-	justify-content: space-around;
+	margin: 10px 0;
+	justify-content: space-evenly;
 	flex-wrap: wrap;
+	position: relative;
 `
 
 const StatusItem = styled.div`
@@ -148,6 +144,8 @@ const EditProfile = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding-top: 10px;
+	padding-bottom: 20px;
 `
 
 const Input = styled.input`
@@ -236,9 +234,13 @@ const Profile = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const user = useSelector(state => state.user[0])
+	
+	useEffect(() => {
+		document.title = `${user.name} | Perfil`
+	}, [])
 		
 	if(!user) {
-		navigate('/login')
+		return navigate('/login')
 	}
 
 	const showModalandButton = () => {
@@ -361,11 +363,7 @@ const Profile = () => {
 					</Buttons>
 				</EditProfile>
 			</Main>
-			<SidebarRight>
-				<ProfileMenu avatar={user.avatar} name={user.name}/>
-				<Tasks />
-				<Grades />
-			</SidebarRight>
+			<SidebarRight avatar={user.avatar} name={user.name} admin={user.admin}/>
 		</Container>
 		)
 }

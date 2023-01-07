@@ -1,12 +1,11 @@
 import styled from 'styled-components'
 
+import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
 import Sidebar from '../../components/Sidebar'
-import ProfileMenu from '../../components/ProfileMenu'
-import Tasks from '../../components/Tasks'
-import Grades from '../../components/Grades'
+import SidebarRight from '../../components/SidebarRight'
 import Title from '../../components/Title'
 
 const Container = styled.div`
@@ -20,12 +19,6 @@ const Main = styled.div`
 	width: 65%;
 	height: 100vh;
 	overflow-y: scroll;
-`
-
-const SidebarRight = styled.aside`
-	height: 100vh;
-	width: 15%;
-	background-color: #7f7d9c;
 `
 
 const MyCourses = styled.div`
@@ -96,11 +89,11 @@ const MyCourseButton = styled.span`
 	position: absolute;
 	bottom: 10px;
 	transition: .5s;
-	border: 2px solid #006994;
+	border: 1px solid #006994;
 
 	&:hover {
 		background-color: #006994;
-		color: lightblue;
+		color: whitesmoke;
 	}
 `
 
@@ -155,9 +148,13 @@ const Enroll = styled.span`
 const StudentCourses = () => {
 	const navigate = useNavigate()
 	const user = useSelector(state => state.user[0])
-	
+
+	useEffect(() => {
+		document.title = `${user.name} | Cursos`
+	}, [])
+
 	if(!user) {
-		navigate('/login')
+		return navigate('/login')
 	}
 
 	return (
@@ -228,11 +225,7 @@ const StudentCourses = () => {
 					</Course>
 				</CoursesAvailable>
 			</Main>
-			<SidebarRight>
-				<ProfileMenu avatar={user.avatar} name={user.name}/>
-				<Tasks />
-				<Grades />
-			</SidebarRight>
+			<SidebarRight avatar={user.avatar} name={user.name} admin={user.admin}/>
 		</Container>
 		)
 }

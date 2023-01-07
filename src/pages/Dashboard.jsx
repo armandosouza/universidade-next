@@ -8,9 +8,7 @@ import {saveUser, logout} from '../redux/features/userSlice'
 
 import Sidebar from '../components/Sidebar'
 import Title from '../components/Title'
-import ProfileMenu from '../components/ProfileMenu'
-import Tasks from '../components/Tasks'
-import Grades from '../components/Grades'
+import SidebarRight from '../components/SidebarRight'
 
 const Container = styled.div`
 	width: 100%;
@@ -114,15 +112,11 @@ const Tag = styled.span`
 	right: 10px;
 `
 
-const SidebarRight = styled.aside`
-	width: 15%;
-	background-color: #7f7d9c;
-`
-
 const Dashboard = () => {
 	const [name, setName] = useState('')
 	const [avatar, setAvatar] = useState('')
 	const [courses, setCourses] = useState([])
+	const [admin, setAdmin] = useState(false)
 
 	const {id} = useParams()
 	const navigate = useNavigate()
@@ -138,9 +132,11 @@ const Dashboard = () => {
 		requestUser.get(`http://localhost:3001/api/user/${id}`)
 		.then((response) => {
 			let user = response.data.user
+			document.title = `${user.name} | Dashboard`
 			setName(user.name)
 			setAvatar(user.avatar)
 			setCourses(user.courses)
+			setAdmin(user.admin)
 
 			dispatch(saveUser({
 				id: user._id,
@@ -152,7 +148,8 @@ const Dashboard = () => {
 				achievements: user.achievements,
 				courses: user.courses,
 				url: location.pathname,
-				status: user.status
+				status: user.status,
+				admin: user.admin
 			}))
 		}).catch((response) => {
 			dispatch(logout())
@@ -194,11 +191,7 @@ const Dashboard = () => {
 					}
 				</Courses>
 			</Main>
-			<SidebarRight>
-				<ProfileMenu avatar={avatar} name={name}/>
-				<Tasks />
-				<Grades />
-			</SidebarRight>
+			<SidebarRight avatar={avatar} name={name} admin={admin}/>
 		</Container>
 		)
 }
