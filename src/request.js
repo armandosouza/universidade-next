@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 //endpoints
-const mainEndpoint = 'http://localhost:3001'
+const mainEndpoint = 'https://universidade-next-api.vercel.app'
 const endpoints = {
 	"auth": `${mainEndpoint}/api/auth`,
 	"user": `${mainEndpoint}/api/user`,
