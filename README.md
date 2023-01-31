@@ -6,8 +6,8 @@ Link do projeto:
 Confira algumas screens abaixo:
 
 # Screenshots:
-<imgs style={display: "flex", justifyContent="space-around"}>
-  <img width="200" src="https://github.com/armandosouza/universidade-next/blob/main/1.jpg?raw=true" />
-  <img width="200" src="https://github.com/armandosouza/universidade-next/blob/main/2.jpg?raw=true" />
-  <img width="200" src="https://github.com/armandosouza/universidade-next/blob/main/3.jpg?raw=true" />
+<imgs align="center">
+  <img width="400" src="https://github.com/armandosouza/universidade-next/blob/main/1.jpg?raw=true" />
+  <img width="400" src="https://github.com/armandosouza/universidade-next/blob/main/2.jpg?raw=true" />
+  <img width="400" src="https://github.com/armandosouza/universidade-next/blob/main/3.jpg?raw=true" />
 </imgs>
