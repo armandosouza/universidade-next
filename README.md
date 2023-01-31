@@ -6,4 +6,6 @@ Link do projeto:
 Confira algumas screens abaixo:
 
 # Screenshots:
-<img width="200" src="https://ton.twitter.com/1.1/ton/data/dm/1619001613699407880/1619001609996111873/tx7ncfhW.jpg:large" />
+<img width="200" src="https://github.com/armandosouza/universidade-next/blob/main/1.jpg?raw=true" />
+<img width="200" src="https://github.com/armandosouza/universidade-next/blob/main/2.jpg?raw=true" />
+<img width="200" src="https://github.com/armandosouza/universidade-next/blob/main/3.jpg?raw=true" />
