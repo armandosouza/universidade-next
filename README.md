@@ -1,7 +1,7 @@
 # Descrição
 
-Projeto full stack de uma universidade com plataforma de cursos e aulas. Totalmente feito com base na stack MERN (MongoDB, Express, React, Node.js)
-Link do projeto: 
+- Projeto full stack de uma universidade com plataforma de cursos e aulas. Totalmente feito com base na stack MERN (MongoDB, Express, React, Node.js)
+- Link do projeto: aqui
 
 Confira algumas screens abaixo:
 
