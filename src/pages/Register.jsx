@@ -120,27 +120,28 @@ const Register = () => {
 		} else if(senha.length < 4) {
 			setMsg("A senha não pode ter menos que 4 caracteres")
 
-		}
+		} else {
 
-		try {
-			axios.post('http://localhost:3001/api/auth/register', {
-				name: nome,
-				email: email,
-				birth: data,
-				password: senha
-			}).then((response) => {
-				setColor("green")
-				setMsg(response.data.msg)
+			try {
+				axios.post('http://localhost:3001/api/auth/register', {
+					name: nome,
+					email: email,
+					birth: data,
+					password: senha
+				}).then((response) => {
+					setColor("green")
+					setMsg(response.data.msg)
 
-				setTimeout(() => {
-					navigate('/login')
-				}, 4000)
-			}).catch((response) => {
-				setMsg(response.response.data.msg)
-			})
-		} catch {
-			setMsg("Houve um erro ao realizar o cadastro!")
-			setColor("red")
+					setTimeout(() => {
+						navigate('/login')
+					}, 4000)
+				}).catch((response) => {
+					setMsg(response.response.data.msg)
+				})
+			} catch {
+				setMsg("Houve um erro ao realizar o cadastro!")
+				setColor("red")
+			}
 		}
 	}
 

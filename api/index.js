@@ -13,6 +13,9 @@ const jwt = require("jsonwebtoken")
 const authRoute = require("./routes/auth")
 const userRoute = require("./routes/user")
 const courseRoute = require("./routes/course")
+const subjectRoute = require("./routes/course.subject")
+const lessonRoute = require("./routes/course.lesson")
+const questionRoute = require("./routes/course.question")
 
 //mongodb connection
 mongoose.connect(process.env.MONGODB).then(() => {
@@ -31,6 +34,9 @@ app.use(cors())
 app.use('/api/auth', authRoute)
 app.use('/api/user', userRoute)
 app.use('/api/course', courseRoute)
+app.use('/api/subject', subjectRoute)
+app.use('/api/lesson', lessonRoute)
+app.use('/api/course/question', questionRoute)
 
 app.listen(process.env.PORT, () => {
 	console.log(`Backend conectado em localhost:${process.env.PORT}`)

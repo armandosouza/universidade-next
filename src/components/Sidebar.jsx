@@ -106,8 +106,6 @@ const Sidebar = ({location}) => {
 			localStorage.removeItem("token")
 			dispatch(logout())
 			navigate('/login')
-		}).catch((e) => {
-			console.log(e)
 		})
 	}
 

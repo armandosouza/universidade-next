@@ -100,17 +100,18 @@ const Login = () => {
 	const [color, setColor] = useState('red')
 
 	const navigate = useNavigate()
+	const user = useSelector(state => state.user[0])
 
 	useEffect(() => {
 		document.title = 'Next University | Entrar na conta'
+		if(user) {
+			navigate(`${user.url}`)
+		}
 	}, [])
 
-	const user = useSelector(state => state.user[0])
-	if(user) {
-		return navigate(`${user.url}`)
-	}
 
-	const login = (e) => {
+
+	const userLogin = (e) => {
 		e.preventDefault()
 		axios.post('http://localhost:3001/api/auth/login', {
 			email: email,
@@ -142,7 +143,7 @@ const Login = () => {
 					<Link to="/trocar-senha">Esqueceu a senha?</Link>
 				</ForgotPassword>
 				<ContainerButton>
-					<Button onClick={login}>Login</Button>
+					<Button onClick={userLogin}>Login</Button>
 					<Button onClick={() => navigate('/registro')}>Registrar-se</Button>
 				</ContainerButton>
 			</FormLogin>

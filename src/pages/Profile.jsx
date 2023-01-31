@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import axios from 'axios'
+import request, {endpoints} from '../request'
+import reducer from '../reducer'
 
-import {useState, useEffect} from 'react'
+import {useReducer, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
@@ -21,6 +22,20 @@ const Main = styled.div`
 	width: 65%;
 	height: 100vh;
 	overflow-y: scroll;
+
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: lightgray;
+		border-radius: 30px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: gray;
+		border-radius: 30px;
+	}
 `
 
 const Cover = styled.div`
@@ -123,17 +138,9 @@ const StatusItem = styled.div`
 	}
 `
 
-const Lessons = styled(StatusItem)`
-	
-`
-
-const Achievements = styled(StatusItem)`
-	
-`
-
-const Diplomas = styled(StatusItem)`
-	
-`
+const Lessons = styled(StatusItem)``
+const Achievements = styled(StatusItem)``
+const Diplomas = styled(StatusItem)``
 
 const Icon = styled.i`
 	margin-bottom: 4px;
@@ -222,47 +229,39 @@ const CloseModal = styled.i`
 `
 
 const Profile = () => {
-	const [info, setInfo] = useState('Medalha por ter feito 100 aulas')
-	const [showButton, setShowButton] = useState(false)
-	const [status, setStatus] = useState('')
-	const [fotoPerfil, setFotoPerfil] = useState('')
-	const [fotoCapa, setFotoCapa] = useState('')
-	const [showModal, setShowModal] = useState(false)
-	const [showModalButton, setShowModalButton] = useState(false)
-	const [msgModal, setMsgModal] = useState('Deseja editar seu perfil?')
-
+	const initialState = {info: "Medalha por ter feito 100 aulas", showButton: false, status: "", profilePhoto: "", coverPhoto: "", showModal: false, showModalButton: false, msgModal: "Deseja editar seu perfil?"}
+	const [state, dispatchState] = useReducer(reducer, initialState)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const user = useSelector(state => state.user[0])
+	const userRequest = request()
+		
+	if(!user) {
+		navigate('/login')
+	}
 	
 	useEffect(() => {
 		document.title = `${user.name} | Perfil`
 	}, [])
-		
-	if(!user) {
-		return navigate('/login')
-	}
 
 	const showModalandButton = () => {
-		setShowModal(true)
-		setShowModalButton(true)
+		dispatchState({type: "SHOW_MODAL"})
 	}
 
 	const closeModal = () => {
-		setShowModal(false)
-		setMsgModal('Deseja editar seu perfil?')
+		dispatchState({type: "CLOSE_MODAL"})
 	}
 
-	const handleInput = (e, type) => {
+	const handleInput = (value, type) => {
 		switch(type) {
 			case 'status':
-				setStatus(e.target.value)
+				dispatchState({type: "SET_STATE", fieldName: type, payload: value})
 				break
 			case 'fotoPerfil':
-				setFotoPerfil(e.target.value)
+				dispatchState({type: "SET_STATE", fieldName: type, payload: value})
 				break
 			case 'fotoCapa':
-				setFotoCapa(e.target.value)
+				dispatchState({type: "SET_STATE", fieldName: type, payload: value})
 				break
 			default:
 				break
@@ -270,36 +269,26 @@ const Profile = () => {
 	}
 
 	const submitEditedUser = (e) => {
-		console.log(fotoPerfil)
 		e.preventDefault()
-		const requestUser = axios.create({
-			headers: {
-				authorization: `Bearer ${localStorage.getItem("token")}`
-			}
-		})
 
-		requestUser.put(`http://localhost:3001/api/user/edit/${user.id}`, {
-			profileImg: fotoCapa || user.profileImg,
-			avatar: fotoPerfil || user.avatar,
-			status: status || user.status
+		userRequest.put(`${endpoints.user}/edit/${user.id}`, {
+			profileImg: state.coverPhoto || user.profileImg,
+			avatar: state.profilePhoto || user.avatar,
+			status: state.status || user.status
 		}).then((response) => {
-			let msg = response.data.msg
-			let user = response.data.user
-
 			dispatch(editUser({
-				profileImg: user.profileImg,
-				avatar: user.avatar,
-				status: user.status
+				profileImg: response.data.user.profileImg,
+				avatar: response.data.user.avatar,
+				status: response.data.user.status
 			}))
-			setShowModalButton(false)
-			setMsgModal(response.data.msg)
-
+			dispatchState({type: "SET_STATE", fieldName: "showModalButton", payload: false})
+			dispatchState({type: "SET_STATE", fieldName: "msgModal", payload: response.data.msg})
 		}).catch((response) => {
 			if(response.response.status === 401) {
 				return navigate('/login')
 			} else {
-				setShowModalButton(false)
-				setMsgModal(response.response.data.msg)
+				dispatchState({type: "SET_STATE", fieldName: "showModalButton", payload: false})
+				dispatchState({type: "SET_STATE", fieldName: "msgModal", payload: response.response.data.msg})
 			}
 		})
 	}
@@ -307,11 +296,11 @@ const Profile = () => {
 
 	return (
 		<Container>
-			{showModal &&
+			{state.showModal &&
 				<Alert>
 					<CloseModal onClick={closeModal} className="fa-solid fa-circle-xmark"></CloseModal>
-					{msgModal}
-					{showModal && showModalButton &&
+					{state.msgModal}
+					{state.showModal && state.showModalButton &&
 						<Submit onClick={(e) => submitEditedUser(e)}
 						style={{marginTop: "20px", fontSize: "16px"}}>
 							Sim
@@ -321,14 +310,14 @@ const Profile = () => {
 			}
 			<Sidebar location={user.url}/>
 			<Main id="main">
-				<Cover onMouseEnter={() => setShowButton(!showButton)} onMouseLeave={() => setShowButton(!showButton)} bg={user.profileImg}>
+				<Cover onMouseEnter={() => dispatchState({type: "SET_STATE", fieldName: "showButton", payload: !state.showButton})} onMouseLeave={() => dispatchState({type: "SET_STATE", fieldName: "showButton", payload: !state.showButton})} bg={user.profileImg}>
 					<ProfileName>{user.name}</ProfileName>
 					<Status>{user.status}</Status>
-					<Info>{info}</Info>
+					<Info>{state.info}</Info>
 					<Badges>
 						<Badge src="https://cdn.iconscout.com/icon/free/png-256/5-star-medal-4175541-3474613.png"/>
 					</Badges>
-					{showButton &&
+					{state.showButton &&
 						<ChangeCoverPhoto>Trocar foto</ChangeCoverPhoto>
 					}
 				</Cover>
@@ -352,11 +341,11 @@ const Profile = () => {
 					<Label htmlFor="nome">Nome:</Label>
 					<Input name="nome" placeholder={user.name} readOnly />
 					<Label htmlFor="status">Status:</Label>
-					<Input onChange={e => handleInput(e, 'status')} name="status" placeholder="Estou estudando!" />
+					<Input onChange={e => handleInput(e.target.value, 'status')} name="status" placeholder="Estou estudando!" />
 					<Label htmlFor="fotoPerfil">Foto de Perfil:</Label>
-					<Input onChange={e => handleInput(e, 'fotoPerfil')} name="fotoPerfil" placeholder="Digite a url da novo foto de perfil" />
+					<Input onChange={e => handleInput(e.target.value, 'fotoPerfil')} name="fotoPerfil" placeholder="Digite a url da novo foto de perfil" />
 					<Label htmlFor="fotoCapa">Foto de Capa:</Label>
-					<Input onChange={e => handleInput(e, 'fotoCapa')} name="fotoCapa" placeholder="Digite a url da novo foto de capa" />
+					<Input onChange={e => handleInput(e.target.value, 'fotoCapa')} name="fotoCapa" placeholder="Digite a url da novo foto de capa" />
 					<Buttons>
 						<Submit onClick={showModalandButton}>Alterar</Submit>
 						<Cancel onClick={() => navigate(-1)}>Cancelar</Cancel>

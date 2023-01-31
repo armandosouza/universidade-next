@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import axios from 'axios'
+import request from '../request'
 
 import {useEffect, useState} from 'react'
 import {useParams, useNavigate, useLocation} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {saveUser, logout} from '../redux/features/userSlice'
 
 import Sidebar from '../components/Sidebar'
@@ -122,39 +122,43 @@ const Dashboard = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const location = useLocation()
+	const userState = useSelector(state => state.user[0])
 
 	useEffect(() => {
-		const requestUser = axios.create({
-			headers: {
-				authorization: `Bearer ${localStorage.getItem("token")}`
-			}
-		})
-		requestUser.get(`http://localhost:3001/api/user/${id}`)
-		.then((response) => {
-			let user = response.data.user
-			document.title = `${user.name} | Dashboard`
-			setName(user.name)
-			setAvatar(user.avatar)
-			setCourses(user.courses)
-			setAdmin(user.admin)
+		if(!userState) {
+			const userRequest = request()
+			userRequest.get(`http://localhost:3001/api/user/${id}`)
+			.then((response) => {
+				let user = response.data.user
+				document.title = `${user.name} | Dashboard`
+				setName(user.name)
+				setAvatar(user.avatar)
+				setCourses(user.courses)
+				setAdmin(user.admin)
 
-			dispatch(saveUser({
-				id: user._id,
-				name: user.name,
-				email: user.email,
-				birth: user.birth,
-				avatar: user.avatar,
-				profileImg: user.profileImg,
-				achievements: user.achievements,
-				courses: user.courses,
-				url: location.pathname,
-				status: user.status,
-				admin: user.admin
-			}))
-		}).catch((response) => {
-			dispatch(logout())
-			navigate('/login')
-		})
+				dispatch(saveUser({
+					id: user._id,
+					name: user.name,
+					email: user.email,
+					birth: user.birth,
+					avatar: user.avatar,
+					profileImg: user.profileImg,
+					achievements: user.achievements,
+					courses: user.courses,
+					url: location.pathname,
+					status: user.status,
+					admin: user.admin
+				}))
+			}).catch((response) => {
+				dispatch(logout())
+				navigate('/login')
+			})
+		} else {
+			setName(userState.name)
+			setAvatar(userState.avatar)
+			setCourses(userState.courses)
+			setAdmin(userState.admin)
+		}
 	}, [])
 
 	return (

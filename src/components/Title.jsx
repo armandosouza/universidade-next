@@ -5,7 +5,8 @@ const TitleText = styled.h2`
 	margin: 10px;
 `
 
-const Hr = styled.hr``
+const Hr = styled.hr`
+`
 
 const Title = ({children}) => {
 	return (

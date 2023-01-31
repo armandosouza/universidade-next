@@ -1,6 +1,7 @@
 import styled from 'styled-components'
+import request, {endpoints} from '../../request'
 
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
@@ -108,15 +109,35 @@ const Button = styled.span`
 `
 
 const StudentGrades = () => {
+	const [semester, setSemester] = useState(0)
+	const [grades, setGrades] = useState([])
+	const [gradesSemester, setGradesSemester] = useState([])
 	const user = useSelector(state => state.user[0])
 	const navigate = useNavigate()
+	const userRequest = request()
 
 	useEffect(() => {
+		if(!user) {
+			return navigate('/login')
+		}
+
 		document.title = `${user.name} | Notas`
+		userRequest.get(`${endpoints.course}/grades/user/${user.id}`)
+		.then((response) => {
+			if(response.data.length > 0) {
+				setGrades(...response.data)
+				setSemester(1)
+			}
+		})
 	}, [])
 
-	if(!user) {
-		return navigate('/login')
+	useEffect(() => {
+		const gradesSemester = grades.filter((grade) => grade.semester === semester)
+		setGradesSemester(gradesSemester)
+	}, [semester])
+
+	const handleTab = (tab) => {
+		setSemester(tab)
 	}
 
 	return (
@@ -126,51 +147,56 @@ const StudentGrades = () => {
 				<Title>Notas</Title>
 				<Subtitle>Confira suas notas abaixo:</Subtitle>
 				<Tabs>
-					<Tab>1º Período</Tab>
-					<Tab>2º Período</Tab>
-					<Tab>3º Período</Tab>
-					<Tab>4º Período</Tab>
-					<Tab>5º Período</Tab>
-					<Tab>6º Período</Tab>
-					<Tab>7º Período</Tab>
-					<Tab>8º Período</Tab>
+					<Tab className={semester === 1 ? 'selected' : null} onClick={() => handleTab(1)}>1º Período</Tab>
+					<Tab className={semester === 2 ? 'selected' : null} onClick={() => handleTab(2)}>2º Período</Tab>
+					<Tab className={semester === 3 ? 'selected' : null} onClick={() => handleTab(3)}>3º Período</Tab>
+					<Tab className={semester === 4 ? 'selected' : null} onClick={() => handleTab(4)}>4º Período</Tab>
+					<Tab className={semester === 5 ? 'selected' : null} onClick={() => handleTab(5)}>5º Período</Tab>
+					<Tab className={semester === 6 ? 'selected' : null} onClick={() => handleTab(6)}>6º Período</Tab>
+					<Tab className={semester === 7 ? 'selected' : null} onClick={() => handleTab(7)}>7º Período</Tab>
+					<Tab className={semester === 8 ? 'selected' : null} onClick={() => handleTab(8)}>8º Período</Tab>
+					<Tab className={semester === 9 ? 'selected' : null} onClick={() => handleTab(9)}>9º Período</Tab>
+					<Tab className={semester === 10 ? 'selected' : null} onClick={() => handleTab(10)}>10º Período</Tab>
 				</Tabs>
-				<GradesContainer>
-					<GradesTable cellspacing="30">
-						<GradesHead>
-							<GradeRow>
-								<GradeCell>Disciplina</GradeCell>
-								<GradeCell>Média Final</GradeCell>
-								<GradeCell>Situação</GradeCell>
-							</GradeRow>
-						</GradesHead>
-						<GradesBody>
-							<GradeRow>
-								<GradeCell>Cálculo I</GradeCell>
-								<GradeCell>8.6</GradeCell>
-								<GradeCell>Aprovado</GradeCell>
-							</GradeRow>
-							<GradeRow>
-								<GradeCell>Álgebra Linear</GradeCell>
-								<GradeCell>7.2</GradeCell>
-								<GradeCell>Aprovado</GradeCell>
-							</GradeRow>
-						</GradesBody>
-					</GradesTable>
-				</GradesContainer>
-				<FinalGrade>
-					Seu aproveitamento geral é de: <b>8.9</b>
-				</FinalGrade>
-				<Menu>
-					<Button>
-						<i style={{marginRight: "5px"}} className="fa-solid fa-file-pdf"></i>
-						Boletim em PDF
-					</Button>
-					<Button>
-						<i style={{marginRight: "5px"}} className="fa-solid fa-book-open"></i>
-						Ver disciplinas
-					</Button>
-				</Menu>
+				{gradesSemester.length > 0 ?
+					<>
+						<GradesContainer>
+							<GradesTable cellspacing="30">
+								<GradesHead>
+									<GradeRow>
+										<GradeCell>Disciplina</GradeCell>
+										<GradeCell>Média Final</GradeCell>
+										<GradeCell>Situação</GradeCell>
+									</GradeRow>
+								</GradesHead>
+								<GradesBody>
+									{gradesSemester.map((grade) => (
+										<GradeRow>
+											<GradeCell>{grade.subject}</GradeCell>
+											<GradeCell>{grade.grade.$numberDecimal}</GradeCell>
+											<GradeCell>{grade.grade.$numberDecimal >= 7 ? 'Aprovado': 'Reprovado'}</GradeCell>
+										</GradeRow>
+									))}
+								</GradesBody>
+							</GradesTable>
+						</GradesContainer>
+						<FinalGrade>
+							Seu aproveitamento geral é de: <b>8.9</b>
+						</FinalGrade>
+						<Menu>
+							<Button>
+								<i style={{marginRight: "5px"}} className="fa-solid fa-file-pdf"></i>
+								Boletim em PDF
+							</Button>
+							<Button>
+								<i style={{marginRight: "5px"}} className="fa-solid fa-book-open"></i>
+								Ver disciplinas
+							</Button>
+						</Menu>
+					</>
+					:
+					<p style={{textAlign: "center", marginTop: "40px", fontSize: "24px"}}>Você não tem notas nos cursos recentes ainda!</p>
+				}
 			</Main>
 			<SidebarRight avatar={user.avatar} name={user.name} admin={user.admin}/>
 		</Container>

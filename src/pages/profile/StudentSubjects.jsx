@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import request, {endpoints} from '../../request'
+import loadingGif from '../../assets/loading.gif'
 
 import {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
@@ -48,6 +50,7 @@ const Main = styled.div`
 	width: 65%;
 	height: 100vh;
 	overflow-y: scroll;
+	position: relative;
 `
 
 const Subtitle = styled.h3`
@@ -93,19 +96,46 @@ const Button = styled.span`
 	}
 `
 
+const LoadingContainer = styled.div`	
+	width: 40%;
+	height: 40%;
+	background-color: whitesmoke;
+	box-shadow: 1px 2px 4px black;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	left: 30%;
+	top: 30%;
+`
+
+const Loading = styled.img`
+	max-width: 150px;
+	max-height: 150px;
+`
 
 const StudentSubjects = () => {
 	const [tab, setTab] = useState('current')
+	const [subjectsStudied, setSubjectsStudied] = useState([])
+	const [subjectsCurrent, setSubjectsCurrent] = useState([])
+	const [loading, setLoading] = useState(true)
 	const user = useSelector(state => state.user[0])
 	const navigate = useNavigate()
+	const userRequest = request()
 
 	useEffect(() => {
-		document.title = `${user.name} | Disciplinas`
-	}, [])
+		if(!user) {
+			return navigate('/login')
+		}
 
-	if(!user) {
-		return navigate('/login')
-	}
+		document.title = `${user.name} | Disciplinas`
+		userRequest.get(`${endpoints.subject}/user/${user.id}/subjects`)
+		.then((response) => {
+			setLoading(false)
+			setSubjectsCurrent([...response.data.subjectsCurrent])
+			setSubjectsStudied([...response.data.subjectsStudied])
+		})
+	}, [])
 
 	const handleTab = (status) => {
 		setTab(status)
@@ -119,26 +149,49 @@ const StudentSubjects = () => {
 				<Tabs>
 					<Tab onClick={() => handleTab('studied')} className={tab === 'studied' ? 'selected' : null}>Cursadas</Tab>
 					<Tab onClick={() => handleTab('current')} className={tab === 'current' ? 'selected' : null}>Atuais</Tab>
-					<Tab onClick={() => handleTab('study')} className={tab === 'study' ? 'selected' : null}>Próximas</Tab>
 				</Tabs>
+				{loading &&
+					<LoadingContainer>
+						<Loading src={loadingGif}/>
+					</LoadingContainer>
+				}
 				{tab === 'current' &&
 					<>
 						<Subtitle>Disciplinas atuais:</Subtitle>
 						<MySubjects>
-							<Subject>
-								<Icon className="fa-solid fa-graduation-cap"></Icon>
-								<SubjectName>Cálculo I</SubjectName>
-								<Semester>1º Período</Semester>
-								<Progress>55% concluído</Progress>
-								<Button>Entrar</Button>
-							</Subject>
-							<Subject>
-								<Icon className="fa-solid fa-graduation-cap"></Icon>
-								<SubjectName>Cálculo I</SubjectName>
-								<Semester>1º Período</Semester>
-								<Progress>55% concluído</Progress>
-								<Button>Entrar</Button>
-							</Subject>
+						{subjectsCurrent.length > 0 ?
+							subjectsCurrent.map(subject => (	
+								<Subject key={subject._id}>
+									<Icon className="fa-solid fa-graduation-cap"></Icon>
+									<SubjectName>{subject.name}</SubjectName>
+									<Semester>{`${subject.semester}º Período`}</Semester>
+									<Progress>Por fazer</Progress>
+									<Button>Entrar</Button>
+								</Subject>
+							))
+							:
+							<p style={{textAlign: "center"}}>Não há disciplinas para cursar!</p>
+						} 
+						</MySubjects>
+					</>
+				}
+				{tab === 'studied' &&
+					<>
+						<Subtitle>Disciplinas cursadas:</Subtitle>
+						<MySubjects>
+						{subjectsStudied.length > 0 ?
+							subjectsStudied.map(subject => (	
+								<Subject key={subject._id}>
+									<Icon className="fa-solid fa-graduation-cap"></Icon>
+									<SubjectName>{subject.name}</SubjectName>
+									<Semester>{`${subject.semester}º Período`}</Semester>
+									<Progress>100% concluída</Progress>
+									<Button>Entrar</Button>
+								</Subject>
+							))
+							:
+							<p style={{textAlign: "center"}}>Não há disciplinas cursadas!</p>
+						} 
 						</MySubjects>
 					</>
 				}

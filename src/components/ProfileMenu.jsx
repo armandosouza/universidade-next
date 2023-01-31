@@ -1,4 +1,7 @@
 import styled from 'styled-components'
+
+import {Link, useNavigate} from 'react-router-dom'
+
 import Avatar from './Avatar'
 
 const Profile = styled.div`
@@ -13,28 +16,36 @@ const Profile = styled.div`
 `
 
 const Admin = styled.span`
-	border-radius: 9px;
-	background-color: #006994;
-	color: whitesmoke;
-	font-size: 16px;
-	padding: 5px 10px;
-	text-align: center;
-	margin: 5px 0;
-	cursor: pointer;
+	margin: 10px 0;
 
-	&:hover {
+	& a:link, & a:visited {
+		border-radius: 9px;
+		background-color: #006994;
+		color: whitesmoke;
+		font-size: 16px;
+		padding: 5px 10px;
+		text-align: center;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	& a:hover {
 		background-color: whitesmoke;
 		color: #006994;
 	}
 `
 
 const ProfileMenu = ({avatar, name, admin}) => {
+	const navigate = useNavigate()
+
 	return (
 		<Profile>
 			<Avatar avatar={avatar}/>
 			{name}
-			{!admin && 
-				<Admin>Área administrativa</Admin>
+			{admin && 
+				<Admin>
+					<Link to="/dashboard/admin">Área administrativa</Link>
+				</Admin>
 			}
 		</Profile>
 		)

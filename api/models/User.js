@@ -19,15 +19,9 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		required: true
 	},
-	address: {
-		type: String
-	},
 	avatar: {
 		type: String,
 		default: "http://cdn.onlinewebfonts.com/svg/img_569204.png"
-	},
-	courses: {
-		type: Array
 	},
 	achievements: {
 		type: Array
@@ -43,6 +37,9 @@ const UserSchema = new mongoose.Schema({
 	status: {
 		type: String,
 		default: "Estou estudando na Next University!"
+	},
+	grade: {
+		type: Number
 	}
 })
 

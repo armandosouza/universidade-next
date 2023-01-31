@@ -19,6 +19,18 @@ import StudentCourses from './pages/profile/StudentCourses'
 import StudentGrades from './pages/profile/StudentGrades'
 import StudentSubjects from './pages/profile/StudentSubjects'
 
+import Admin from './pages/admin/Admin'
+import AdminCourses from './pages/admin/AdminCourses'
+import AdminSubjects from './pages/admin/AdminSubjects'
+import AdminLessons from './pages/admin/AdminLessons'
+import AdminPermissions from './pages/admin/AdminPermissions'
+import AdminQuestions from './pages/admin/AdminQuestions'
+
+import CourseStudy from './pages/study/CourseStudy'
+import SubjectsStudy from './pages/study/SubjectsStudy'
+import LessonStudy from './pages/study/LessonStudy'
+import Study from './pages/study/Study'
+
 import ErrorPage from './pages/ErrorPage'
 
 //root router
@@ -63,6 +75,46 @@ const router = createBrowserRouter([
    {
     path: '/dashboard/:id/disciplinas',
     element: <StudentSubjects />
+   },
+   {
+    path: '/dashboard/admin',
+    element: <Admin />
+   },
+   {
+    path: '/dashboard/admin/cursos/:option',
+    element: <AdminCourses />
+   },
+   {
+    path: '/dashboard/admin/disciplinas/:option',
+    element: <AdminSubjects />
+   },
+   {
+    path: '/dashboard/admin/aulas/:option',
+    element: <AdminLessons />
+   },
+   {
+    path: '/dashboard/admin/permissão/:option',
+    element: <AdminPermissions />
+   },
+   {
+    path: '/dashboard/admin/questão/:option',
+    element: <AdminQuestions />
+   },
+   {
+    path: '/study/:userId/:courseId/:course',
+    element: <CourseStudy />
+   },
+   {
+    path: '/study/:userId/:courseId/:course/:semester',
+    element: <SubjectsStudy />
+   },
+   {
+    path: '/study/:userId/:courseId/:course/:semester/:subjectId',
+    element: <LessonStudy />
+   },
+   {
+    path: '/study/:userId/:courseId/:course/:semester/:subjectId/:lessonId',
+    element: <Study />
    }
   ])
 
