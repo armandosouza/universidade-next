@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import request from '../request'
+import request, {endpoints} from '../request'
 
 import {useEffect, useState} from 'react'
 import {useParams, useNavigate, useLocation} from 'react-router-dom'
@@ -127,7 +127,7 @@ const Dashboard = () => {
 	useEffect(() => {
 		if(!userState) {
 			const userRequest = request()
-			userRequest.get(`http://localhost:3001/api/user/${id}`)
+			userRequest.get(`${endpoints.user}/${id}`)
 			.then((response) => {
 				let user = response.data.user
 				document.title = `${user.name} | Dashboard`

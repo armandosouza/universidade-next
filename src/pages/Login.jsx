@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import axios from 'axios'
+import {endpoints} from '../request'
 
 import {useState, useEffect} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
@@ -113,7 +114,7 @@ const Login = () => {
 
 	const userLogin = (e) => {
 		e.preventDefault()
-		axios.post('http://localhost:3001/api/auth/login', {
+		axios.post(`${endpoints.auth}/login`, {
 			email: email,
 			password: password
 		}).then((response) => {

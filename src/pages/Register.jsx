@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {endpoints} from '../request'
 
 import {useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
@@ -123,7 +124,7 @@ const Register = () => {
 		} else {
 
 			try {
-				axios.post('http://localhost:3001/api/auth/register', {
+				axios.post(`${endpoints.auth}/register`, {
 					name: nome,
 					email: email,
 					birth: data,
