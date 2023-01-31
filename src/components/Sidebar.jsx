@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import axios from 'axios'
+import {endpoints} from '../request'
 
 import {useDispatch, useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
@@ -101,7 +102,7 @@ const Sidebar = ({location}) => {
 	}
 
 	const handleLogout = () => {
-		axios.post('http://localhost:3001/api/auth/logout')
+		axios.post(`${endpoints.auth}/logout`)
 		.then(() => {
 			localStorage.removeItem("token")
 			dispatch(logout())
