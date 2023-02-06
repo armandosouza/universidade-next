@@ -14,10 +14,6 @@ const PanelContainer = styled.div`
 	position: relative;
 	display: flex;
 	justify-content: center;
-
-	@media ${device.mobileP} {
-		display: none;
-	}
 `
 
 const Panel = styled.div`
@@ -31,10 +27,6 @@ const Panel = styled.div`
 	justify-content: space-around;
 	align-items: center;
 	box-shadow: 0px 1px 8px black;
-
-	@media ${device.mobileP} {
-		display: none;
-	}
 `
 
 const PanelItem = styled.div`
@@ -82,22 +74,12 @@ const Subtitle = styled.h2`
 	font-size: 40px;
 	padding: 20px 0;
 	text-align: center;
-
-	@media ${device.mobile} {
-		font-size: 28px;
-	}
 `
 
 const EventContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
 	margin-top: 15px;
-
-	@media ${device.mobileP} {
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
 `
 
 const Event = styled.article`
@@ -110,10 +92,6 @@ const Event = styled.article`
 
 	&:hover {
 		transform: scale(1.1);
-	}
-
-	@media ${device.mobileP} {
-		margin: 10px 0;
 	}
 `
 
@@ -245,7 +223,6 @@ const EnrollButton = styled.span`
 	border-radius: 20px;
 	cursor: pointer;
 	transition: .5s;
-	text-align: center;
 
 	&:hover {
 		transform: scale(1.1);

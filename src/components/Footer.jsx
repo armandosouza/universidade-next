@@ -22,14 +22,9 @@ const FooterTitle = styled.h2`
 	margin-bottom: 10px;
 `
 
-const FooterSub = styled.h3`
-	text-align: center;
-`
-
+const FooterSub = styled.h3``
 const Copyright = styled.h5`
-	text-align: center;
-	margin-top: 10px;
-`
+	margin-top: 10px;`
 
 const Footer = () => {
 	return (
