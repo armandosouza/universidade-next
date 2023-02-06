@@ -46,7 +46,7 @@ const FormRegister = styled.form`
 		width: 90%;
 		height: 70%;
 		top: 15%;
-		left: 15%;
+		left: 5%;
 	}
 `
 
