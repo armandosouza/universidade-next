@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 
 import {Link} from 'react-router-dom'
 import Navbar from '../components/Navbar'

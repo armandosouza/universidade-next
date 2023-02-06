@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 import logo from '../assets/remove.png'
 
 import {Link} from 'react-router-dom'
@@ -33,6 +34,10 @@ const Right = styled.div`
 const Title = styled.h1`
 	margin: 0;
 	color: skyblue;
+
+	@media ${device.mobileMax} {
+		font-size: 14px;
+	}
 `
 
 const ItemMenu = styled.div`
