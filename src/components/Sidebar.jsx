@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 import axios from 'axios'
 import {endpoints} from '../request'
 
@@ -19,6 +20,10 @@ const SidebarTitle = styled.h3`
 	margin-left: 10px;
 
 	&.off {
+		display: none;
+	}
+
+	@media ${device.mobileP} {
 		display: none;
 	}
 `
