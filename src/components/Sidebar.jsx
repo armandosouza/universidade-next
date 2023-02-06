@@ -32,6 +32,10 @@ const MenuIcon = styled.i`
 	font-size: 27px;
 	color: lightgray;
 	cursor: pointer;
+
+	@media ${device.mobileP} {
+		display: none;
+	}
 `
 
 const SidebarContainer = styled.aside`
@@ -48,7 +52,7 @@ const SidebarContainer = styled.aside`
 	}
 
 	@media ${device.mobileP} {
-		width: 35%;
+		width: 25%;
 	}
 `
 
