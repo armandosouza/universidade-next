@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 
 import MenuNavbar from './MenuNavbar'
 
@@ -10,6 +11,10 @@ const Container = styled.div`
 	background-size: cover;
 	margin: 0;
 	position: relative;
+
+	@media ${device.mobileP} {
+		height: 50vh;
+	}
 `
 
 const Navbar = ({bg}) => {

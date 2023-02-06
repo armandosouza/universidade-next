@@ -15,7 +15,7 @@ const Menu = styled.div`
 	display: flex;
 	justify-content: space-between;
 
-	@media ${device.mobileMax}, @media ${device.mobileLMax} {
+	@media ${device.mobile} {
 		overflow-x: scroll;
 
 		::-webkit-scrollbar {
