@@ -59,6 +59,10 @@ const ProfileName = styled.h3`
 	position: absolute;
 	top: 20px;
 	left: 20px;
+
+	@media ${device.mobileP} {
+		font-size: 20px;
+	}
 `
 
 const Status = styled.h4`

@@ -24,6 +24,22 @@ const Main = styled.div`
 
 	@media ${device.mobileP} {
 		width: 75%;
+
+		overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			height: 10px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: lightgray;
+			border-radius: 30px;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: gray;
+			border-radius: 30px;
+		}
 	}
 `
 
@@ -38,6 +54,10 @@ const Tabs = styled.div`
 	padding: 0 5px;
 	display: flex;
 	justify-content: center;
+
+	@media ${device.mobileP} {
+		width: 75%;
+	}
 `
 
 const Tab = styled.div`
