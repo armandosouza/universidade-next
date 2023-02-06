@@ -114,6 +114,7 @@ const Event = styled.article`
 
 	@media ${device.mobileP} {
 		margin: 10px 0;
+		width: 60%;
 	}
 `
 
