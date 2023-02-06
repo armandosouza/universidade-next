@@ -151,12 +151,20 @@ const Icon = styled.i`
 	margin: 0 5px;
 `
 
-const CourseID = styled.span``
+const CourseID = styled.span`
+	@media ${device.mobileP} {
+		display: none;
+	}
+`
 
 const CourseName = styled.h3`
 	font-size: 16px;
 `
-const CourseStudents = styled.span``
+const CourseStudents = styled.span`
+	@media ${device.mobileP} {
+		display: none;
+	}
+`
 
 const Enroll = styled.span`
 	padding: 5px 10px;

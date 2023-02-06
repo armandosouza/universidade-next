@@ -61,7 +61,7 @@ const ProfileName = styled.h3`
 	left: 20px;
 
 	@media ${device.mobileP} {
-		font-size: 20px;
+		font-size: 24px;
 	}
 `
 
