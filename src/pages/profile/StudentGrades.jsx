@@ -56,6 +56,8 @@ const Tabs = styled.div`
 	justify-content: center;
 
 	@media ${device.mobileP} {
+		flex-direction: column;
+		align-items: center;
 		width: 75%;
 	}
 `
