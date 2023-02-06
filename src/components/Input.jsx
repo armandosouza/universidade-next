@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 
 const Container = styled.div`
 	width: 50%;
@@ -8,6 +9,10 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
+
+	@media ${device.mobileP} {
+		width: 80%;
+	}
 `
 
 const Icon = styled.i`

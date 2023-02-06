@@ -58,10 +58,6 @@ const FormLogin = styled.form`
 		height: 70%;
 		top: 15%;
 		left: 5%;
-
-		& input {
-			width: 80%;
-		}
 	}
 `
 
