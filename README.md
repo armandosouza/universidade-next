@@ -1,7 +1,8 @@
 # Descrição
 
 - Projeto full stack de uma universidade com plataforma de cursos e aulas. Totalmente feito com base na stack MERN (MongoDB, Express, React, Node.js)
-- Link do projeto: aqui
+- Link do projeto: <a href="https://universidade-next.vercel.app/">aqui</a>
+- Link do repositório da API: <a href="https://github.com/armandosouza/universidade-next-api">aqui</a>
 
 Confira algumas screens abaixo:
 
