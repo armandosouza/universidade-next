@@ -14,6 +14,24 @@ const Menu = styled.div`
 	box-shadow: 1px 3px 7px gray;
 	display: flex;
 	justify-content: space-between;
+
+	@media ${device.mobileMax}, @media ${device.mobileLMax} {
+		overflow-x: scroll;
+
+		::-webkit-scrollbar {
+			height: 7px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: lightgray;
+			border-radius: 30px;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: gray;
+			border-radius: 30px;
+		}
+	}
 `
 
 const Left = styled.div`
@@ -34,10 +52,6 @@ const Right = styled.div`
 const Title = styled.h1`
 	margin: 0;
 	color: skyblue;
-
-	@media ${device.mobileMax} {
-		font-size: 14px;
-	}
 `
 
 const ItemMenu = styled.div`
