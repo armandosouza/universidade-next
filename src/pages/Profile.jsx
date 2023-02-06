@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 import request, {endpoints} from '../request'
 import reducer from '../reducer'
 
@@ -35,6 +36,10 @@ const Main = styled.div`
 	::-webkit-scrollbar-thumb {
 		background: gray;
 		border-radius: 30px;
+	}
+
+	@media ${device.mobileP} {
+		width: 75%;
 	}
 `
 

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../../responsive'
 import request, {endpoints} from '../../request'
 import loadingGif from '../../assets/loading.gif'
 
@@ -22,6 +23,10 @@ const Main = styled.div`
 	height: 100vh;
 	overflow-y: hidden;
 	position: relative;
+
+	@media ${device.mobileP} {
+		width: 75%;
+	}
 `
 
 const MyCourses = styled.div`

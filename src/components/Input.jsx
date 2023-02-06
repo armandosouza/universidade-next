@@ -12,6 +12,7 @@ const Container = styled.div`
 
 	@media ${device.mobileP} {
 		width: 80%;
+		z-index: 2;
 	}
 `
 

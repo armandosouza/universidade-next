@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../../responsive'
 import request, {endpoints} from '../../request'
 
 import {useEffect, useState} from 'react'
@@ -20,6 +21,10 @@ const Main = styled.div`
 	width: 65%;
 	height: 100vh;
 	position: relative;
+
+	@media ${device.mobileP} {
+		width: 75%;
+	}
 `
 
 const Subtitle = styled.h3`

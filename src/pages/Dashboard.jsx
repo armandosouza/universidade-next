@@ -26,6 +26,10 @@ const Main = styled.div`
 	&.expand {
 		width: 75%;
 	}
+
+	@media ${device.mobileP} {
+		width: 75%;
+	}
 `
 
 const Courses = styled.div`
