@@ -41,6 +41,10 @@ const SidebarContainer = styled.aside`
 	&.active {
 		width: 10%;
 	}
+
+	@media ${device.mobileP} {
+		width: 35%;
+	}
 `
 
 const MenuSidebar = styled.nav`
