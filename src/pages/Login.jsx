@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 import axios from 'axios'
 import {endpoints} from '../request'
 
@@ -51,6 +52,13 @@ const FormLogin = styled.form`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	@media ${device.mobileP} {
+		width: 90%;
+		height: 70%;
+		top: 15%;
+		left: 15%;
+	}
 `
 
 const Warning = styled.span`

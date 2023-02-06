@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 import request, {endpoints} from '../request'
 
 import {useEffect, useState} from 'react'

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {device} from '../responsive'
 import {endpoints} from '../request'
 
 import {useNavigate} from 'react-router-dom'
@@ -40,6 +41,13 @@ const FormRegister = styled.form`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	@media ${device.mobileP} {
+		width: 90%;
+		height: 70%;
+		top: 15%;
+		left: 15%;
+	}
 `
 
 const Subtitle = styled.h3`

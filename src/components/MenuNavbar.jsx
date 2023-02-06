@@ -52,6 +52,10 @@ const Right = styled.div`
 const Title = styled.h1`
 	margin: 0;
 	color: skyblue;
+
+	@media ${device.mobileP} {
+		font-size: 1.3em;
+	}
 `
 
 const ItemMenu = styled.div`
